@@ -1,0 +1,38 @@
+{
+  "name": "ai-test-case-generator",
+  "version": "1.0.0",
+  "description": "AI-powered test case generator and Playwright runner. Transforms user stories and URLs into executable browser tests using LLM intelligence.",
+  "main": "src/cli/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "generate": "node generate-tests.js",
+    "generate:mock": "USE_MOCK_LLM=true node generate-tests.js",
+    "lint": "eslint src/ --ext .js"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "ai",
+    "qa-automation",
+    "openai",
+    "test-generator"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "eslint": "^8.55.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

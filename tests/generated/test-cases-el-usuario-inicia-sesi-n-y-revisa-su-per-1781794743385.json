@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "input": "El usuario inicia sesión y revisa su perfil",
+    "generatedAt": "2026-06-18T14:59:03.385Z",
+    "totalCases": 5
+  },
+  "test_cases": [
+    {
+      "title": "Page loads and displays main content",
+      "steps": [
+        "Navigate to the application",
+        "Wait for the page to fully load",
+        "Verify the main heading is visible",
+        "Verify no console errors are present"
+      ],
+      "expected": "Page loads successfully with visible main content and no errors",
+      "selectors": {
+        "description": "Target h1 or main heading element, check body for content"
+      }
+    },
+    {
+      "title": "Navigation links are functional",
+      "steps": [
+        "Navigate to the application",
+        "Identify all navigation links in the header",
+        "Click the first navigation link",
+        "Verify the URL changes or content updates"
+      ],
+      "expected": "Navigation links respond to clicks and route correctly",
+      "selectors": {
+        "description": "Target nav a, header a, or [role=\"navigation\"] links"
+      }
+    },
+    {
+      "title": "Page is responsive on mobile viewport",
+      "steps": [
+        "Set viewport to 375x667 (iPhone SE)",
+        "Navigate to the application",
+        "Verify main content is visible and not overflowing",
+        "Verify text is readable without horizontal scrolling"
+      ],
+      "expected": "Layout adapts to mobile viewport with no overflow or broken elements",
+      "selectors": {
+        "description": "Check body overflow, main content containers"
+      }
+    },
+    {
+      "title": "Interactive elements are accessible via keyboard",
+      "steps": [
+        "Navigate to the application",
+        "Press Tab to focus the first interactive element",
+        "Verify focus indicator is visible",
+        "Continue tabbing through interactive elements"
+      ],
+      "expected": "All interactive elements are reachable via keyboard with visible focus states",
+      "selectors": {
+        "description": "Focus on buttons, links, and form inputs"
+      }
+    },
+    {
+      "title": "Page title and meta information are present",
+      "steps": [
+        "Navigate to the application",
+        "Check the document title is not empty",
+        "Verify the page has a meaningful title tag"
+      ],
+      "expected": "Page has a descriptive, non-empty title tag",
+      "selectors": {
+        "description": "Use page.title() to retrieve document title"
+      }
+    }
+  ]
+}

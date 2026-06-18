@@ -1,0 +1,79 @@
+name: AI Test Suite CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      test_url:
+        description: 'URL to generate and run tests against'
+        required: false
+        default: 'https://playwright.dev'
+      user_story:
+        description: 'User story to generate tests from (overrides URL if set)'
+        required: false
+
+jobs:
+  generate-and-test:
+    name: Generate Tests & Run Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: Generate test cases (mock mode)
+        env:
+          USE_MOCK_LLM: 'true'
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -n "${{ github.event.inputs.user_story }}" ]; then
+            node generate-tests.js --story "${{ github.event.inputs.user_story }}"
+          else
+            TARGET_URL="${{ github.event.inputs.test_url || 'https://playwright.dev' }}"
+            node generate-tests.js --url "$TARGET_URL"
+          fi
+
+      - name: Run Playwright tests
+        env:
+          BASE_URL: ${{ github.event.inputs.test_url || 'https://playwright.dev' }}
+        run: npm test
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ github.run_number }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test results JSON
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ github.run_number }}
+          path: test-results/
+          retention-days: 14
+
+      - name: Upload generated test cases
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: generated-test-cases-${{ github.run_number }}
+          path: tests/generated/
+          retention-days: 14
