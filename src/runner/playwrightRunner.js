@@ -88,13 +88,13 @@ ${tests}
         return `expect(page.url()).not.toBe('about:blank');`;
       }
       if (s.includes('visible') || s.includes('display')) {
-        return `await expect(page.locator('main, [role="main"], body')).toBeVisible();`;
+        return `await expect(page.locator('body')).toBeVisible();`;
       }
       if (s.includes('overflow') || s.includes('horizontal')) {
         return `const overflow = await page.evaluate(() => document.body.scrollWidth > window.innerWidth);\n    expect(overflow).toBe(false);`;
       }
       if (s.includes('focus') || s.includes('keyboard')) {
-        return `await expect(page.locator(':focus')).toBeVisible();`;
+        return `await expect(page.locator(':focus').first()).toBeVisible();`;
       }
       return `await expect(page.locator('body')).toBeVisible();`;
     }
@@ -108,13 +108,13 @@ ${tests}
 
   _extractElement(step) {
     const lower = step.toLowerCase();
-    if (lower.includes('heading') || lower.includes('h1') || lower.includes('título')) return 'h1, h2, [role="heading"]';
-    if (lower.includes('button') || lower.includes('botón') || lower.includes('login') || lower.includes('submit')) return 'button, [type="submit"]';
-    if (lower.includes('link') || lower.includes('enlace') || lower.includes('navigation')) return 'nav a, header a';
-    if (lower.includes('input') || lower.includes('field') || lower.includes('usuario')) return 'input[type="text"], input[name]';
+    if (lower.includes('heading') || lower.includes('h1') || lower.includes('título')) return 'h1';
+    if (lower.includes('button') || lower.includes('botón') || lower.includes('login') || lower.includes('submit')) return '[type="submit"], button';
+    if (lower.includes('link') || lower.includes('enlace') || lower.includes('navigation')) return 'nav a';
+    if (lower.includes('input') || lower.includes('field') || lower.includes('usuario')) return 'input[type="text"]';
     if (lower.includes('password') || lower.includes('contraseña')) return 'input[type="password"]';
     if (lower.includes('email')) return 'input[type="email"]';
-    return 'main, body';
+    return 'body';
   }
 }
 
