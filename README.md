@@ -93,7 +93,7 @@ $ node generate-tests.js --url https://playwright.dev
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/ai-test-case-generator.git
+git clone https://github.com/javierzuritap/ai-test-case-generator.git
 cd ai-test-case-generator
 
 # Install dependencies
